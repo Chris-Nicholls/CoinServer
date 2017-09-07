@@ -23,6 +23,7 @@ library
                      , utf8-string
                      , filepath
                      , url
+                     , stm
   default-language:    Haskell2010
 
 executable CoinServer-exe
