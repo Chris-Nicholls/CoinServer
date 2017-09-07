@@ -1,0 +1,69 @@
+
+
+CreateCoin(String CoinName, Int Amount, Address Owner, Int WalletCommandId, Hash Signature) :: Void
+	If 
+		* signature matches, 
+		* WalletCommandId is the next id for that wallet
+		* coin doesn't already exist
+	then
+		Increment sender's command ID
+		Issue a transaction  
+			* ->Amount:CoinName-> Owner
+
+
+SendCoins(String CoinName, Int Amount, Address Sender, Address Receiver, Int WalletCommandId, Hash signature):: Void
+	If 
+		* Sender has enough coins
+		* and signature matches
+		* WalletCommandId is the next id for that wallet
+	then 
+		* Increment sender's command ID
+
+	 	* issue a transaction 
+	 		Sender -> Amount:CoinName ->  Receiver
+
+GetBallance(String CoinName, Address WalletId):: Int
+
+GetCommandID(Address WalletId):: Int
+
+GetWalletHistory(Address WalletId) :: [Transaction]
+
+GetWalletHistory(Address WalletId, String CoinName) :: [Transaction]
+
+GetCoinHistory(String CoinName) :: [Transaction]
+
+GetFullHistory() :: [Transaction]
+
+###########################################
+### And Maybe: 
+###########################################
+
+SubsribeToTransactions( ... ) :: Stram[Transaction] 
+
+ConvertCoins(String FromCoin, String ToCoin, Int FromAmount, Int ToAmount, Address WalletId, Int WalletCommandId, Hash Signature)
+	If 
+		* Wallet has has enough fromCoins
+		* and signature matches
+		* WalletCommandId is the next id for that wallet
+		* WalletId is the owner of both Currencies
+	Issue two transactions
+		WalletId -> FromAmount:FromCoin -> *
+		* -> ToAmount:ToCoin -> WalletId
+
+
+PlaceBid(String FromCoin, String ToCoin, Int FromAmount, Int ToAmount, Address WalletId, Int WalletCommandId, Hash Signature): BidId
+	Lots going on here.
+	This would place a bid if the usual constraints are met
+	A transaction is generated that places the coins in escrow (nothing actually needs to happen for this, but other transactions need to be aware of it)
+	If the bid can be matched, then transactions are generated to do the trade
+
+CancelBid(BidId id, Address WalletId, Int WalletCommandId, Hash Signature)
+
+IssueNewCoins(String CoinName, ....)
+	Allow cion owners to issue new coins?
+	Possibly acting like a stock split, and adjusting exchange prices accordingly
+
+ProposeTrade(From, to, amount, etc)
+RespondToTrade(...)
+CancelTrade(....)
+	Propose a trade with another wallet which can be cancelled, accepted or rejected. 
